@@ -1,2 +1,3 @@
 node_modules/
 .webflowrc.json
+public/bundle.js
