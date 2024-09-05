@@ -17,7 +17,7 @@ interface EditTab {
 
 const Tabs: React.FC<Tabs> = ({ tabItems }) => {
   return <div className="flex flex-col gap-1">
-    {tabItems.map((tabItem) => <button id={tabItem.id} onClick={tabItem.onClick}>{tabItem.displayName}</button>)}
+    {tabItems.map((tabItem) => <button key={tabItem.id} onClick={tabItem.onClick}>{tabItem.displayName}</button>)}
   </div>
 }
 
