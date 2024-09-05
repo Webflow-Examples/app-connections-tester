@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+    background: #333;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: var(--font-stack);
+  }
+
+  h1 {
+    font-size: var(--font-size-large);
+  }
+
+  h2 {
+    font-size: var(--font-size-small);
+  }
+  
+  button {
+    color: #fff;
+    background: #0073e6;
+    padding: 4px 8px;
+    border: 2px solid #0073e6;
+    border-radius: 4px;
+  }
+  
+  button:focus {
+    outline: none;
+    border-color: #1280ee;
+  }
+  
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: row;
+}
+
+.gap-1 {
+  gap: 4px;
+}
