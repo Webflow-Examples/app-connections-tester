@@ -64,9 +64,9 @@ const EditTab: React.FC<EditTab> = ({ appConnection }) => {
   return <>
     <h2 className="subheading">{appConnection}</h2>
     <p>Component ID</p>
-    <p>{resource.component}</p>
+    <p>{resource?.component}</p>
     <p>Element ID</p>
-    <p>{resource.element}</p>
+    <p>{resource?.element}</p>
   </>
 }
 
