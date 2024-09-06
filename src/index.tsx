@@ -16,6 +16,11 @@ interface EditTab {
   appConnection: string;
 }
 
+interface EmptyState {
+  title: string;
+  body: string;
+}
+
 const Tabs: React.FC<Tabs> = ({ tabItems }) => {
   return <div className="tabContainer">
     {tabItems.map((tabItem) => <button key={tabItem.id} onClick={tabItem.onClick} className={`tab${tabItem.isActive ? ' tab--active' : ''}`}>{tabItem.displayName}</button>)}
@@ -27,8 +32,15 @@ const Tab = {
   EDIT: 'EDIT'
 }
 
+const EmptyState: React.FC<EmptyState> = ({ title, body}) => {
+  return <div className="emptyState">
+    <h2 className="subheading">{title}</h2>
+    <p>{body}</p>
+  </div>
+}
+
 const EditTab: React.FC<EditTab> = ({ appConnection }) => {
-  const [resource, setResource] = useState('');
+  const [resource, setResource] = useState({});
 
   useEffect(() => {
     async function fetchAppResource() {
@@ -38,8 +50,7 @@ const EditTab: React.FC<EditTab> = ({ appConnection }) => {
 
       const res = await webflow.getCurrentAppConnectionResource();
       if (res && res.type === 'Element') {
-        console.log("res", res);
-        setResource(JSON.stringify(res.value.id));
+        setResource(res.value.id);
       }
     }
 
@@ -47,12 +58,15 @@ const EditTab: React.FC<EditTab> = ({ appConnection }) => {
   }, [appConnection])
 
   if (appConnection === '') {
-    return <p>Missing app connection, try launching app from Element Panel</p>
+    return <EmptyState title="Missing Appp Connection" body="Try launching app from Element Panel."/>
   }
 
   return <>
-    <p>App Connection: {appConnection}</p>
-    <p>Id: {resource}</p>
+    <h2 className="subheading">{appConnection}</h2>
+    <p>Component ID</p>
+    <p>{resource.component}</p>
+    <p>Element ID</p>
+    <p>{resource.element}</p>
   </>
 }
 
@@ -63,7 +77,6 @@ const App: React.FC = () => {
   useEffect(() => {
     async function retrieveAppConnections() {
       const appConnections = await webflow.getCurrentAppConnection();
-      console.log('app connections', appConnections);
       if (['manageImageElement', 'manageFormElement'].includes(appConnections)) {
         setCurrentTab(Tab.EDIT);
         setCurrentAppConnection(appConnections);
@@ -82,17 +95,18 @@ const App: React.FC = () => {
     if (root && root.children) {
       const el = await root.append(type);
       if (!el || !el.appConnections) {
-        throw new Error("App Connections not supported");
+        await webflow.notify({ type: "Error", message: "App Connections not supported" });
+        return;
       }
       await el.setAppConnection(type == webflow.elementPresets.Image ? 'manageImageElement' : 'manageFormElement');
     } else {
-      throw new Error("Expected an element.")
+      await webflow.notify({ type: 'Success', message: "Expected an element"})
     }
   }
 
   return (
     <div>
-      <h1>App Connections Tester</h1>
+      <h1 className="heading">App Connections Tester</h1>
       <Tabs tabItems={[
         {id: Tab.HOME, displayName: 'Create Elements', onClick: () => goToTab(Tab.HOME), isActive: currentTab === Tab.HOME},
         {id: Tab.EDIT, displayName: 'Edit Elements', onClick: () => goToTab(Tab.EDIT), isActive: currentTab === Tab.EDIT}

@@ -19,9 +19,13 @@ body {
     margin-bottom: 4px;
   }
 
-  h1 {
+  .heading {
     font-size: var(--font-size-large);
     text-align: center;
+  }
+
+  .subheading {
+    font-size: var(--font-size-small);
   }
 
   .pageContainer {
@@ -39,6 +43,10 @@ body {
     color: var(--text2);
     border: none;
     border-radius: 0;
+  }
+
+  .tab:hover {
+    color: var(--text1);
   }
 
   .tab:focus {
@@ -75,4 +83,19 @@ body {
 
 .gap-1 {
   gap: var(--spacer-small);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacer-large);
+  gap: var(--spacer-small);
+  background: var(--background5);
+  border-radius: var(--spacer-small);
+}
+
+.text-center {
+  text-align: center;
 }
