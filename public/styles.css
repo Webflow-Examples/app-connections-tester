@@ -1,3 +1,8 @@
+:root {
+  --spacer-small: 4px;
+  --spacer-large: 8px;
+}
+
 body {
     margin: 0;
     background: #333;
@@ -6,14 +11,44 @@ body {
     flex-direction: column;
     justify-content: center;
     font-family: var(--font-stack);
+    font-size: var(--font-size-small);
+    padding: var(--spacer-large);
+  }
+
+  body > *:not(:last-child) {
+    margin-bottom: 4px;
   }
 
   h1 {
     font-size: var(--font-size-large);
+    text-align: center;
   }
 
-  h2 {
-    font-size: var(--font-size-small);
+  .pageContainer {
+    padding: var(--spacer-small);
+  }
+
+  .tabContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .tab {
+    background: none;
+    color: var(--text2);
+    border: none;
+    border-radius: 0;
+  }
+
+  .tab:focus {
+    outline: none;
+    border-bottom: solid var(--text1);
+  }
+
+  .tab--active {
+    color: var(--text1);
+    border-bottom: solid var(--text1);
   }
   
   button {
@@ -22,6 +57,7 @@ body {
     padding: 4px 8px;
     border: 2px solid #0073e6;
     border-radius: 4px;
+    font-size: var(--font-size-small);
   }
   
   button:focus {
@@ -33,10 +69,10 @@ body {
   display: flex;
 }
 
-.flex-col {
+.flex-row {
   flex-direction: row;
 }
 
 .gap-1 {
-  gap: 4px;
+  gap: var(--spacer-small);
 }

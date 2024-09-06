@@ -5,6 +5,7 @@ interface TabItem {
   id: string;
   displayName: string;
   onClick: () => void;
+  isActive: boolean;
 }
 
 interface Tabs {
@@ -16,8 +17,8 @@ interface EditTab {
 }
 
 const Tabs: React.FC<Tabs> = ({ tabItems }) => {
-  return <div className="flex flex-col gap-1">
-    {tabItems.map((tabItem) => <button key={tabItem.id} onClick={tabItem.onClick}>{tabItem.displayName}</button>)}
+  return <div className="tabContainer">
+    {tabItems.map((tabItem) => <button key={tabItem.id} onClick={tabItem.onClick} className={`tab${tabItem.isActive ? ' tab--active' : ''}`}>{tabItem.displayName}</button>)}
   </div>
 }
 
@@ -93,21 +94,23 @@ const App: React.FC = () => {
     <div>
       <h1>App Connections Tester</h1>
       <Tabs tabItems={[
-        {id: Tab.HOME, displayName: 'Create Elements', onClick: () => goToTab(Tab.HOME)},
-        {id: Tab.EDIT, displayName: 'Edit Elements', onClick: () => goToTab(Tab.EDIT)}
+        {id: Tab.HOME, displayName: 'Create Elements', onClick: () => goToTab(Tab.HOME), isActive: currentTab === Tab.HOME},
+        {id: Tab.EDIT, displayName: 'Edit Elements', onClick: () => goToTab(Tab.EDIT), isActive: currentTab === Tab.EDIT}
       ]}/>
-      {currentTab === Tab.HOME && (
-        <>
-        <p>Click button to create element of specified type and apply an app connection</p>
-        <button onClick={() => addAppConnection(webflow.elementPresets.FormForm)}>Form</button>
-        <button onClick={() => addAppConnection(webflow.elementPresets.Image)}>Image</button>
-        </>
-      )}
-      {currentTab === Tab.EDIT && (
-        <>
+      <div className="pageContainer">
+        {currentTab === Tab.HOME && (
+          <>
+          <p>Click button to create element of specified type and apply an app connection</p>
+          <div className="flex flex-row gap-1">
+            <button onClick={() => addAppConnection(webflow.elementPresets.FormForm)}>Form</button>
+            <button onClick={() => addAppConnection(webflow.elementPresets.Image)}>Image</button>
+          </div>
+          </>
+        )}
+        {currentTab === Tab.EDIT && (
           <EditTab appConnection={currentAppConnection}/>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 };
