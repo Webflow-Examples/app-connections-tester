@@ -2,7 +2,7 @@
 
 Small App used to validate App Connections APIs.
 
-<img width="863" alt="image" src="https://github.com/user-attachments/assets/da13ad23-74c1-407e-a15e-df246d48be32">
+<img width="858" alt="image" src="https://github.com/user-attachments/assets/d9227620-4db6-45bb-a781-5f9b1ca5b46d">
 
 ## Local Development
 
