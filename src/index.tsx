@@ -58,7 +58,7 @@ const EditTab: React.FC<EditTab> = ({ appConnection }) => {
   }, [appConnection])
 
   if (appConnection === '') {
-    return <EmptyState title="Missing Appp Connection" body="Try launching app from Element Panel."/>
+    return <EmptyState title="Missing App Connection" body="Try launching app from Element Panel."/>
   }
 
   return <>
