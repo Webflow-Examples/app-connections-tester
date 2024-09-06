@@ -1,6 +1,8 @@
-# Designer Extension Starter: React
+# App Connections Tester
 
-Explore the [documentation](https://docs.developers.webflow.com/v2.0.0/docs/create-a-designer-extensions) for detailed information on Designer Extension features and API.
+Small App used to validate App Connections APIs.
+
+<img width="863" alt="image" src="https://github.com/user-attachments/assets/da13ad23-74c1-407e-a15e-df246d48be32">
 
 ## Local Development
 
