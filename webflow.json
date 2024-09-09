@@ -1,8 +1,8 @@
 {
   "name": "app-connections",
   "publicDir": "public",
-  "size": "default",
+  "size": "comfortable",
   "apiVersion": "2",
-  "featureFlags": {"appConnections": true},
+  "featureFlags": { "appConnections": true },
   "appConnections": ["manageImageElement", "manageFormElement"]
 }

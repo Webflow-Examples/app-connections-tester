@@ -29,7 +29,8 @@ const Tabs: React.FC<Tabs> = ({ tabItems }) => {
 
 const Tab = {
   HOME: 'HOME',
-  EDIT: 'EDIT'
+  EDIT: 'EDIT',
+  MANAGE: 'MANAGE'
 }
 
 const EmptyState: React.FC<EmptyState> = ({ title, body}) => {
@@ -39,8 +40,46 @@ const EmptyState: React.FC<EmptyState> = ({ title, body}) => {
   </div>
 }
 
+const ManageTab: React.FC = () => {
+  const [appConnection, setAppConnection] = useState('');
+  const [element, setElement] = useState<AnyElement | null>(null);
+
+  useEffect(() => {
+    webflow.subscribe('selectedelement', async (element) => {
+      setElement(element);
+
+      if (element && element.appConnections) {
+        const appConnections = await element.getAppConnections();
+        setAppConnection(appConnections ? appConnections[0] : '');
+      } else {
+        setAppConnection('');
+      }
+    });
+  }, []);
+
+  const removeAppConnection = async () => {
+    if (appConnection && element && element.appConnections) {
+      await element.removeAppConnection(appConnection);
+      setAppConnection('');
+    }
+  };
+
+  if (!appConnection) {
+    return <EmptyState title="No App Connection found" body="Select an element that has an App connection set."/>
+  }
+
+  return <>
+    <h2 className="subheading">App Connection value: {appConnection ? `"${appConnection}"` : '🚫'}</h2>
+    <p>Component ID</p>
+    <p>{element?.id.component}</p>
+    <p>Element ID</p>
+    <p>{element?.id.element}</p>
+    <button type="button" onClick={removeAppConnection}>Remove App Connection</button>
+  </>
+}
+
 const EditTab: React.FC<EditTab> = ({ appConnection }) => {
-  const [resource, setResource] = useState({});
+  const [resource, setResource] = useState<FullElementId | null>(null);
 
   useEffect(() => {
     async function fetchAppResource() {
@@ -58,11 +97,11 @@ const EditTab: React.FC<EditTab> = ({ appConnection }) => {
   }, [appConnection])
 
   if (appConnection === '') {
-    return <EmptyState title="Missing App Connection" body="Try launching app from Element Panel."/>
+    return <EmptyState title="Missing Current App Connection" body="Try launching the App from the element settings panel in the Designer."/>
   }
 
   return <>
-    <h2 className="subheading">{appConnection}</h2>
+    <h2 className="subheading">Current App Connection: "{appConnection}"</h2>
     <p>Component ID</p>
     <p>{resource?.component}</p>
     <p>Element ID</p>
@@ -109,12 +148,13 @@ const App: React.FC = () => {
       <h1 className="heading">App Connections Tester</h1>
       <Tabs tabItems={[
         {id: Tab.HOME, displayName: 'Create Elements', onClick: () => goToTab(Tab.HOME), isActive: currentTab === Tab.HOME},
-        {id: Tab.EDIT, displayName: 'Edit Elements', onClick: () => goToTab(Tab.EDIT), isActive: currentTab === Tab.EDIT}
+        {id: Tab.EDIT, displayName: 'Edit Elements', onClick: () => goToTab(Tab.EDIT), isActive: currentTab === Tab.EDIT},
+        {id: Tab.MANAGE, displayName: 'Manage App Connection', onClick: () => goToTab(Tab.MANAGE), isActive: currentTab === Tab.MANAGE}
       ]}/>
       <div className="pageContainer">
         {currentTab === Tab.HOME && (
           <>
-          <p>Click button to create element of specified type and apply an app connection</p>
+          <p>Click button to create element of specified type and apply an App Connection</p>
           <div className="flex flex-row gap-1">
             <button onClick={() => addAppConnection(webflow.elementPresets.FormForm)}>Form</button>
             <button onClick={() => addAppConnection(webflow.elementPresets.Image)}>Image</button>
@@ -123,6 +163,9 @@ const App: React.FC = () => {
         )}
         {currentTab === Tab.EDIT && (
           <EditTab appConnection={currentAppConnection}/>
+        )}
+        {currentTab === Tab.MANAGE && (
+          <ManageTab />
         )}
       </div>
     </div>
