@@ -133,6 +133,8 @@ const App: React.FC = () => {
     const root = await webflow.getRootElement();
     if (root && root.children) {
       const el = await root.append(type);
+      await webflow.setSelectedElement(el);
+
       if (!el || !el.appConnections) {
         await webflow.notify({ type: "Error", message: "App Connections not supported" });
         return;
