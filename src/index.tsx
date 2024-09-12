@@ -150,8 +150,8 @@ const App: React.FC = () => {
       <h1 className="heading">App Connections Tester</h1>
       <Tabs tabItems={[
         {id: Tab.HOME, displayName: 'Create Elements', onClick: () => goToTab(Tab.HOME), isActive: currentTab === Tab.HOME},
-        {id: Tab.EDIT, displayName: 'Edit Elements', onClick: () => goToTab(Tab.EDIT), isActive: currentTab === Tab.EDIT},
-        {id: Tab.MANAGE, displayName: 'Manage App Connection', onClick: () => goToTab(Tab.MANAGE), isActive: currentTab === Tab.MANAGE}
+        {id: Tab.EDIT, displayName: 'Current App Connection', onClick: () => goToTab(Tab.EDIT), isActive: currentTab === Tab.EDIT},
+        {id: Tab.MANAGE, displayName: 'View App Connection', onClick: () => goToTab(Tab.MANAGE), isActive: currentTab === Tab.MANAGE}
       ]}/>
       <div className="pageContainer">
         {currentTab === Tab.HOME && (
