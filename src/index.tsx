@@ -130,18 +130,23 @@ const App: React.FC = () => {
   }
 
   const addAppConnection = async (type: ElementPreset<AnyElement>) => {
-    const root = await webflow.getRootElement();
-    if (root && root.children) {
-      const el = await root.append(type);
-      await webflow.setSelectedElement(el);
+    try {
+      const root = await webflow.getRootElement();
+      if (root && root.children) {
+        const el = await root.append(type);
+        await webflow.setSelectedElement(el);
 
-      if (!el || !el.appConnections) {
-        await webflow.notify({ type: "Error", message: "App Connections not supported" });
-        return;
+        if (!el || !el.appConnections) {
+          await webflow.notify({ type: "Error", message: "App Connections not supported" });
+          return;
+        }
+        await el.setAppConnection(type == webflow.elementPresets.Image ? 'manageImageElement' : 'manageFormElement');
+      } else {
+        await webflow.notify({ type: "Error", message: "Expected an element"})
       }
-      await el.setAppConnection(type == webflow.elementPresets.Image ? 'manageImageElement' : 'manageFormElement');
-    } else {
-      await webflow.notify({ type: 'Success', message: "Expected an element"})
+    } catch (e) {
+      await webflow.notify({ type: "Error", message: "Failed to create the App Connection" });
+      console.error(e);
     }
   }
 
