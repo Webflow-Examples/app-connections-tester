@@ -5,6 +5,7 @@
   "apiVersion": "2",
   "appConnections": ["manageImageElement", "manageFormElement"],
   "appIntents": {
-    "form": ["manage"]
+    "form": ["manage"],
+    "image": ["manage"]
   }
 }
