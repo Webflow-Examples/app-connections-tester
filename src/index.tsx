@@ -114,6 +114,17 @@ const App: React.FC = () => {
   const [currentAppConnection, setCurrentAppConnection] = useState('');
 
   useEffect(() => {
+    async function getLaunchContext() {
+      const context = await webflow.getLaunchContext();
+      if (context) {
+        await webflow.notify({ type: "Success", message: `App was launched through ${context.type}` });
+      }
+    }
+
+    void getLaunchContext();
+  }, [])
+
+  useEffect(() => {
     async function retrieveAppConnections() {
       const appConnections = await webflow.getCurrentAppConnection();
       if (['manageImageElement', 'manageFormElement'].includes(appConnections)) {

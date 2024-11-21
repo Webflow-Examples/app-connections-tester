@@ -3,6 +3,8 @@
   "publicDir": "public",
   "size": "comfortable",
   "apiVersion": "2",
-  "featureFlags": { "appConnections": true },
-  "appConnections": ["manageImageElement", "manageFormElement"]
+  "appConnections": ["manageImageElement", "manageFormElement"],
+  "appIntents": {
+    "form": ["manage"]
+  }
 }
